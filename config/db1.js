@@ -26,12 +26,6 @@ module.exports = function() {
             }
         },
         /*
-         * Get all the newspapers
-         */
-         allNewspapers() {
-            return movieList.map(function(obj){ return obj.newspaper;});
-         },
-        /*
          * Delete a movie with the given id.
          */
         remove(id) {
