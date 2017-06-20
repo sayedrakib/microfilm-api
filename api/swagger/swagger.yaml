@@ -68,12 +68,32 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/AllNewspapers"
+            $ref: "#/definitions/Newspaper"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /search:
+    x-swagger-router-controller: microfilm
+    get: 
+      operationId: searchMicrofilms
+      description: search Microfilms
+      parameters: 
+        - $ref: "#/parameters/newspaper"
+        - $ref: "#/parameters/date_start"
+        - $ref: "#/parameters/date_end"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Microfilm"
+        default: 
+          description: Error
+          schema: 
+            $ref: "#/definitions/ErrorResponse"
+
 
   /swagger:
     x-swagger-pipe: swagger_raw
@@ -99,11 +119,14 @@ definitions:
             date_end:
               type: string
               format: date
-  AllNewspapers:
-    type: array
-    items:
-      type: string
-  
+              
+  Newspaper:
+    properties:
+      name: 
+        description: name of the newspaper
+        type: string
+
+
   Microfilms:
     type: array
     items:
@@ -126,20 +149,6 @@ definitions:
         format: date
         description: task description        
 
-  
-  GetMovieResponse:
-    required:
-      - id
-      - title
-      - year
-    properties:
-      id:
-        type: string
-      title: 
-        type: string
-      year:
-        type: number
-        
   GetRollNoResponse:
     required:
       - roll_no
@@ -181,3 +190,24 @@ definitions:
     properties:
       message:
         type: string
+parameters:
+  newspaper:
+    name: newspaper
+    in: query
+    description: Newspaper name
+    type: string
+    required: false 
+  date_start:
+    name: date_start
+    in: query
+    description: Search starts from this date
+    type: string
+    format: date
+    required: true
+  date_end:
+    name: date_end
+    in: query
+    description: Search for until this date
+    type: string
+    format: date
+    required: true

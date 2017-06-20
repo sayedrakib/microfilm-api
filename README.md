@@ -1,1 +1,2 @@
-# Skeleton project for Swagger
+# Project for Microfilms API
+# Swagger, ExpressJS

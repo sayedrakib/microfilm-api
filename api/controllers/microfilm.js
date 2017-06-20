@@ -2,15 +2,21 @@
     // Include our "db"
     var db = require('../../config/db')();
     // Exports all the functions to perform on the db
-    module.exports = {getAll, getAllNewspapers, save, getOne, update, delMovie};
+    module.exports = {getAll, getAllNewspapers, searchMicrofilms, save, getOne, update, delMovie};
 
     //GET /microfilm operationId
     function getAll(req, res, next) {
+        console.log("Hello hello!");
         res.json({ microfilms: db.find()});
     }
     //GET all the newspapers names
     function getAllNewspapers(req, res, next) {
         res.json({newspapers: db.allNewspapers()});
+    }
+    //GET all the microfilms based on query parameters
+    function searchMicrofilms(req, res, next) {
+        
+        res.json({microfilms: db.searchMicrofilms(req.query.newspaper)});
     }
 
     //POST /movie operationId

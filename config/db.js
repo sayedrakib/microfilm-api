@@ -4,13 +4,13 @@ var crypto = require('crypto');
 
 module.exports = function() {
     return {
-        movieList : [],
+        microfilmList : [],
         /*
          * Save the movie inside the "db".
          */
         save(movie) {
             movie.id = crypto.randomBytes(20).toString('hex'); // fast enough for our purpose
-            this.movieList.push(movie);
+            this.microfilmList.push(movie);
             return 1;           
         },
         /*
@@ -18,25 +18,37 @@ module.exports = function() {
          */
         find(id) {
             if(id) {
-                return this.movieList.find(element => {
+                return this.microfilmList.find(element => {
                         return element.id === id;
                     }); 
             }else {
-                return this.movieList;
+                return this.microfilmList;
             }
         },
         /*
          * Get all the newspapers
          */
          allNewspapers() {
-            return movieList.map(function(obj){ return obj.newspaper;});
+            return this.microfilmList.map(element => { 
+                return {"name": element.newspaper};
+            });
          },
+
+        /*
+         * Search for microfilms based on query
+         */
+         searchMicrofilms(newspaper) {
+            return this.microfilmList.filter( microfilm => {
+                    return newspaper == microfilm.newspaper;
+                });          
+         },
+
         /*
          * Delete a movie with the given id.
          */
         remove(id) {
             var found = 0;
-            this.movieList = this.movieList.filter(element => {
+            this.microfilmList = this.microfilmList.filter(element => {
                     if(element.id === id) {
                         found = 1;
                     }else {
@@ -49,12 +61,12 @@ module.exports = function() {
          * Update a movie with the given id
          */
         update(id, movie) {
-            var movieIndex = this.movieList.findIndex(element => {
+            var movieIndex = this.microfilmList.findIndex(element => {
                 return element.id === id;
             });
             if(movieIndex !== -1) {
-                this.movieList[movieIndex].title = movie.title;
-                this.movieList[movieIndex].year = movie.year;
+                this.microfilmList[movieIndex].title = movie.title;
+                this.microfilmList[movieIndex].year = movie.year;
                 return 1;
             }else {
                 return 0;
